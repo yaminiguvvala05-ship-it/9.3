@@ -1,0 +1,41 @@
+import java.sql.*;
+
+public class JdbcDelete {
+    public static void main(String[] args) {
+        try {
+            // Load JDBC Driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Establish connection
+            Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/college",
+                "root",
+                "password"
+            );
+
+            // Delete query
+            String sql = "DELETE FROM student WHERE id = ?";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            // Set id value
+            ps.setInt(1, 101);
+
+            // Execute query
+            int i = ps.executeUpdate();
+
+            if (i > 0) {
+                System.out.println("Record deleted successfully");
+            } else {
+                System.out.println("Record not found");
+            }
+
+            // Close connection
+            ps.close();
+            con.close();
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
